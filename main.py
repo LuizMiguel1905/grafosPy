@@ -32,9 +32,25 @@ for state in states:
 
 graph = Grafo(states)
 
-graph.add_arestas_by_adj_list(adjacency_list)
+graph.add_arestas_by_adj_matrix(adjacency_list)
 
-print(graph.adj)
+
+
+##Apresentação dos dados 
+print('--------------------------------------------------------------------')
+print('Vértice de maior grau: ' + str(graph.get_vertices_maior_grau()))
+print('Grau: ' + str(len(graph.adj[graph.get_vertices_maior_grau()[0]])))
+print('Vizinhos: ' + str(graph.get_vizinhos(graph.get_vertices_maior_grau())))
+print('--------------------------------------------------------------------')
+print('Vértice de menor grau: ' + str(graph.get_vertices_menor_grau()))
+print('Grau: ' + str(len(graph.adj[graph.get_vertices_menor_grau()[0]])))
+print('Vizinhos: ' + str(graph.get_vizinhos(graph.get_vertices_menor_grau())))
+print('--------------------------------------------------------------------')
+print('Densidade do grafo: ' + str(graph.get_arestas()))
+print('--------------------------------------------------------------------')
+print('Frequencia de graus dos vértices: ')
+print(graph.get_freq_grau_vertices())
+
 
 
 
