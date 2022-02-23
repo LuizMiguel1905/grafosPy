@@ -1,4 +1,7 @@
+from asyncio.windows_events import NULL
 from collections import defaultdict
+
+from numpy import Infinity
 
 
 class Grafo(object):
@@ -29,8 +32,13 @@ class Grafo(object):
 
     def get_arestas(self):
         """ Retorna a lista de arestas do grafo. """
-        return [(k, v) for k in self.adj.keys() for v in self.adj[k]]
-
+        resp = list()
+        for k in self.adj.keys():
+            for v in self.adj[k]:
+                if((str(k), str(v)) and (str(v), str(k)) not in resp):
+                    resp.append((str(k), str(v)))
+        return resp
+ 
 
     def adiciona_vertices(self, vertices):
         """ Adiciona vértices ao grafo. """
@@ -42,6 +50,49 @@ class Grafo(object):
     def existe_aresta(self, u, v):
         """ Existe uma aresta entre os vértices 'u' e 'v'? """
         return u in self.adj and v in self.adj[u]
+
+    def get_vertices_maior_grau(self):
+        vertice = list([])
+        grau = 0
+        for v in self.get_vertices():
+            if (not(len(self.adj[v]) < grau)):
+                if(len(self.adj[v]) > grau):
+                        vertice = []
+                grau = len(self.adj[v])           
+                vertice.append(v)
+        return vertice 
+
+
+    def get_vertices_menor_grau(self):
+        vertice = list([])
+        grau = Infinity
+        for v in self.get_vertices():
+            if (not(len(self.adj[v]) > grau)):
+                if(len(self.adj[v]) < grau):
+                    vertice = []
+                grau = len(self.adj[v])           
+                vertice.append(v)
+        return vertice
+
+    def get_vizinhos(self,vertice):
+        if (type(vertice) is list):
+            resposta = dict()
+            for v in vertice:
+                resposta[v] = self.adj[v]
+            return resposta
+        else:
+            resposta = self.adj[v]       
+            return resposta
+        
+    def get_freq_grau_vertices(self):
+        frequencia = dict()
+        for v in self.get_vertices():
+            grau = len(self.adj[v])
+            if(('Grau ' + str(grau)) not in frequencia):
+                frequencia['Grau ' + str(grau)] = 0
+            frequencia['Grau ' + str(grau)] += 1 
+        return frequencia
+
 
 
     def __len__(self):
