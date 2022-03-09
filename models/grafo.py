@@ -45,6 +45,16 @@ class Grafo(object):
         for v in vertices:
             self.adj[v] = []
 
+    def get_densidade(self):
+        quant_arestas = len(self.get_arestas())  
+        quant_vertices = len(self.get_vertices()) 
+        eq =(2*quant_arestas)/(quant_vertices*(quant_vertices - 1))
+        resp = ''
+        if round(eq) == 1:
+            resp = 'Denso'
+        else:
+            resp = 'Esparso'
+        return(resp)        
 
 
     def existe_aresta(self, u, v):
