@@ -16,13 +16,13 @@ class Grafo(object):
     def add_arestas_by_adj_matrix(self, matrix):
         """ Adiciona as conexãões aos vértices através da """
         for v in self.get_vertices():
-            self.adj[v] = self.has_connections_by_line(matrix[v])
+            self.adj[v] = self.get_vertices_vizinhos_por_linha(matrix[v])
 
     def get_vertices(self):
         """ Retorna a lista de vértices do grafo. """
         return list(self.adj.keys())
 
-    def has_connections_by_line(self, line):
+    def get_vertices_vizinhos_por_linha(self, line):
         """ Retorna uma lista dos vértices representados em uma linha da matriz"""
         connect_list = list()
         for n in range(len(line)):
@@ -91,7 +91,7 @@ class Grafo(object):
                 resposta[v] = self.adj[v]
             return resposta
         else:
-            resposta = self.adj[v]       
+            resposta = self.adj[vertice]       
             return resposta
         
     def get_freq_grau_vertices(self):
