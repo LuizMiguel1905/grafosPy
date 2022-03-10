@@ -7,7 +7,7 @@ import networkx as nx
 from models.grafo import Grafo
 from itertools import islice
 
-file = pd.read_excel("./matriz_adj_uf_brasil.xlsx",)
+file = pd.read_excel(".docs/matriz_adj_uf_brasil.xlsx",)
 
 def df_to_list(state):
     df = pd.DataFrame(file,columns=[state]).values
@@ -56,11 +56,14 @@ graphList = graph.get_freq_grau_vertices().items()
 print(sorted(graphList))
 
 #Histograma
-data = ['Grau 1', 'Grau 1', 'Grau 1', 'Grau 2' , 'Grau 2' , 'Grau 2' , 'Grau 2' , 'Grau 2', 'Grau 3',  'Grau 3' , 'Grau 3'
-, 'Grau 3' , 'Grau 3' , 'Grau 3' , 'Grau 3', 'Grau 4', 'Grau 4', 'Grau 5' , 'Grau 5' , 'Grau 5' , 'Grau 5' , 'Grau 6'
-, 'Grau 6', 'Grau 6', 'Grau 6', 'Grau 6', 'Grau 8']
 
-plt2.hist(data, 7, rwidth=0.9)
+data = []
+#=-=-=-=-=-=-=-=-=Adicionando a frequencia de graus dos vértices em uma tupla -=-=-=-=-=-=-=#
+
+for itens in graph.get_freq_grau_vertices().items():
+    for i in range(itens[1]):
+        data.append(itens[0])
+plt2.hist(sorted(data), 7, rwidth=0.9)
 plt2.show()
 
 #-==-=-=-=-=-=-==-GRAFO-=-==--==---=-===-=
