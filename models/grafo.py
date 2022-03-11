@@ -2,8 +2,6 @@ from asyncio.windows_events import NULL
 from collections import defaultdict
 
 from numpy import Infinity
-
-
 class Grafo(object):
     """ Implementação básica de um grafo. """
 
@@ -12,6 +10,7 @@ class Grafo(object):
         self.adj = defaultdict()
         self.direcionado = direcionado
         self.adiciona_vertices(vertices)
+
 
     def add_arestas_by_adj_matrix(self, matrix):
         """ Adiciona as conexãões aos vértices através da """

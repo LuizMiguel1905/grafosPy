@@ -5,38 +5,17 @@ import matplotlib.pyplot as plt2
 import networkx as nx
 
 from models.grafo import Grafo
+from models.MatrixConverter import MatrixConverter
 from itertools import islice
 
-file = pd.read_excel(".docs/matriz_adj_uf_brasil.xlsx",)
+file = pd.read_excel("docs/matriz_adj_uf_brasil.xlsx",)
 
-def df_to_list(state):
-    df = pd.DataFrame(file,columns=[state]).values
-    newList = list()
-    for value in df:
-        newList.append(value[0])
-    return newList
+MC = MatrixConverter(file)
 
-print(file);
 
-#Vértices em forma de lista
-estados = pd.DataFrame(file,columns=['UF']).values
-states = set()
-for siglas in estados:
-    states.add(siglas[0])
-    
-states = sorted(states)
+graph = Grafo(MC.convert_collumn_to_list('UF'))
 
-adjacency_list = dict()
-
-for state in states:
-    connection = df_to_list(state)
-    print(state  + ': ' + str(connection))
-    adjacency_list[state] = connection
-
-graph = Grafo(states)
-
-graph.add_arestas_by_adj_matrix(adjacency_list)
-
+graph.add_arestas_by_adj_matrix(MC.convert_matrix_to_dict('UF'))
 
 
 ##Apresentação dos dados 
