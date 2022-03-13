@@ -8,12 +8,13 @@ from models.grafo import Grafo
 from models.MatrixConverter import MatrixConverter
 from itertools import islice
 
-file = pd.read_excel("docs/matriz_adj_uf_brasil.xlsx")
+file = pd.read_excel("docs/Grafos/matriz_adj_uf_brasil.xlsx")
 
 MC = MatrixConverter(file)
 
 # =-=-=-=- Convertendo coluna de vértices em uma lista =-=-=-=-=-=-=-
 vertices = MC.convert_collumn_to_list()
+
 # =-=-=-=- Convertendo Matriz de vértices em uma lista =-=-=-=-=-=-=-
 adj_matrix_dict = MC.convert_matrix_to_dict('UF')
 
