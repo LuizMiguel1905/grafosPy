@@ -18,7 +18,7 @@ class MatrixConverter(object):
         adjacency_list = dict()
         for item in sorted(self.convert_collumn_to_list(collumn)):
             connection = self.convert_collumn_to_list(item)
-            print(item + ': ' + str(connection))
+
             adjacency_list[item] = connection
         return adjacency_list
 

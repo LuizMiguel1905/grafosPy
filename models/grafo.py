@@ -30,6 +30,11 @@ class Grafo(object):
                 connect_list.append(self.get_vertices()[n])
         return connect_list
 
+    def add_aresta(self, u, v):
+        if(not self.existe_aresta(u, v) and u != v):
+            self.adj[u].append(v)
+            self.adj[v].append(u)
+
     def get_arestas(self):
         """ Retorna a lista de arestas do grafo. """
         resp = list()
