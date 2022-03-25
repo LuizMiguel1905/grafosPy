@@ -35,7 +35,7 @@ class Grafo(object):
                 if self.ponderado:
                     connect_list.append([self.get_vertices()[n], line[n]])
                 else:
-                    connect_list.append([self.get_vertices()[n], 1])
+                    connect_list.append([self.get_vertices()[n], 0])
         return connect_list
 
     def get_arestas(self):

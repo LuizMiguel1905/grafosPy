@@ -79,7 +79,7 @@ class ValidadorUtil(object):
                         break
                 peso = 0
                 lista = []
-                return self.percorrer_ciclo(grafo, lista, vertice, peso)
+                self.percorrer_ciclo(grafo, lista, vertice, peso)
 
             else:
                 for v in grafo.get_vertices():
@@ -89,13 +89,17 @@ class ValidadorUtil(object):
 
     def percorrer_ciclo(self, grafo, lista, vertice, peso):
         if len(lista) == len(grafo.get_arestas()):
-            print(str(lista) + ', peso: ' + str(peso))
+            print((str(lista) + ', peso: ' + str(peso)))
             return
-        for v in grafo.adj[vertice]:
-            aresta = str(vertice) + str(v[0])
-            if aresta not in lista and aresta[::-1] not in lista:
-                lista.append(aresta)
-                peso = peso + v[1]
-                self.percorrer_ciclo(grafo, lista, v[0], peso)
-        if len(lista) != len(grafo.get_arestas()) and len(lista) > 0:
-            lista.pop()
+        else:
+            pesoVertice = 0
+            for v in grafo.adj[vertice]:
+                aresta = str(vertice) + str(v[0])
+                if aresta not in lista and aresta[::-1] not in lista:
+                    lista.append(aresta)
+                    pesoVertice = v[1]
+                    peso = peso + pesoVertice
+                    self.percorrer_ciclo(grafo, lista, v[0], peso)
+                    peso = peso - pesoVertice
+            if len(lista) != len(grafo.get_arestas()) and len(lista) > 0:
+                lista.pop()
