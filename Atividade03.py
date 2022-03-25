@@ -18,7 +18,7 @@ adj_matrix_dict = MC.convert_matrix_to_dict('V')
 graph = Grafo(vertices)
 graph.add_arestas_by_adj_matrix(adj_matrix_dict)
 
-def eurelianoVerify():
+def eulerianosVerify():
     newList = []
     imparCount = 0
     for x in graph.get_vertices():
@@ -30,10 +30,10 @@ def eurelianoVerify():
 
     print(newList)            
     if 0 in newList and imparCount == 2:
-        print("Semi-Eureliano")
+        print("Semi-Eulerianos")
     if 0 in newList and imparCount > 2:
-        print("Não eureliano")
+        print("Não eulerianos")
     if 1 in newList and imparCount == 0:
-        print("Eureliano")
+        print("Eulerianos")
 
-eurelianoVerify()
+eulerianosVerify()
