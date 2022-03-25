@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt2
 import networkx as nx
 
 from models.grafo import Grafo
-from models.MatrixConverter import MatrixConverter
+from utils.ConverterUtil import ConverterUtil
 from itertools import islice
 
 file = pd.read_excel("docs/Grafos/matriz_adj_uf_brasil.xlsx")
 
-MC = MatrixConverter(file)
+MC = ConverterUtil(file)
 
 # =-=-=-=- Convertendo coluna de vértices em uma lista =-=-=-=-=-=-=-
 vertices = MC.convert_collumn_to_list()

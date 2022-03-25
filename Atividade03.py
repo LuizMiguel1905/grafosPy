@@ -1,39 +1,32 @@
-from tkinter import X
-from re import A
+
 import pandas as pd
 from models.grafo import Grafo
-from models.MatrixConverter import MatrixConverter
+from utils.ConverterUtil import ConverterUtil
+from utils.ValidadorUtil import ValidadorUtil
 
 
-grafo1 = pd.read_excel("docs/Grafos/Grafos.xlsx", sheet_name='Grafo 1')
-grafo2 = pd.read_excel("docs/Grafos/Grafos.xlsx", sheet_name='Grafo 2')
-grafo3 = pd.read_excel("docs/Grafos/Grafos.xlsx", sheet_name='Grafo 3')
-grafo4 = pd.read_excel("docs/Grafos/Grafos.xlsx", sheet_name='Grafo 4')
+grafo1 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 1')
+grafo2 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 2')
+grafo3 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 3')
+grafo4 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 4')
+
+converterUtil = ConverterUtil()
+validadorUtil = ValidadorUtil()
+
+graph1 = Grafo()
+graph2 = Grafo()
+graph3 = Grafo()
+graph4 = Grafo()
+
+adj_matrix_dict = converterUtil.convert_matrix_to_dict(grafo1)
 
 
-MC = MatrixConverter(grafo1)
+graph1.montar_grafo(converterUtil.convert_matrix_to_dict(grafo1))
+graph2.montar_grafo(converterUtil.convert_matrix_to_dict(grafo2))
+graph3.montar_grafo(converterUtil.convert_matrix_to_dict(grafo3))
+graph4.montar_grafo(converterUtil.convert_matrix_to_dict(grafo4))
 
-vertices = MC.convert_collumn_to_list('V')
-adj_matrix_dict = MC.convert_matrix_to_dict('V')
-graph = Grafo(vertices)
-graph.add_arestas_by_adj_matrix(adj_matrix_dict)
-
-def eurelianoVerify():
-    newList = []
-    imparCount = 0
-    for x in graph.get_vertices():
-        if graph.get_grau_vertice(x) % 2 == 0:
-            newList.append(1)
-        else:
-            newList.append(0)
-            imparCount = imparCount + 1
-
-    print(newList)            
-    if 0 in newList and imparCount == 2:
-        print("Semi-Eureliano")
-    if 0 in newList and imparCount > 2:
-        print("Não eureliano")
-    if 1 in newList and imparCount == 0:
-        print("Eureliano")
-
-eurelianoVerify()
+print(validadorUtil.exibir_ciclo_euleriano(graph1))
+print(validadorUtil.exibir_ciclo_euleriano(graph2))
+print(validadorUtil.exibir_ciclo_euleriano(graph3))
+print(validadorUtil.exibir_ciclo_euleriano(graph4))
