@@ -16,6 +16,6 @@ class ConverterUtil(object):
         keys = (list(file.iloc[:, 0]))
         for key in keys:
             connection = self.convert_matrix_collumn_to_list(file, key)
-            print(key + ': ' + str(connection))
+
             adjacency_list[key] = connection
         return adjacency_list

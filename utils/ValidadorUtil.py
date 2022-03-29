@@ -73,13 +73,14 @@ class ValidadorUtil(object):
             return "grafo não-euleriano"
         else:
             if(self.is_euleriano(grafo) == 1):
+                vertice = []
                 for v in grafo.get_vertices():
                     if grafo.get_grau_vertice(v) % 2 != 0:
-                        vertice = v
-                        break
-                peso = 0
-                lista = []
-                self.percorrer_ciclo(grafo, lista, vertice, peso)
+                        vertice.append(v)
+                for i in vertice:
+                    peso = 0
+                    lista = []
+                    self.percorrer_ciclo(grafo, lista, i, peso)
 
             else:
                 for v in grafo.get_vertices():
