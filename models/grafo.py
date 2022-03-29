@@ -7,11 +7,17 @@ from numpy import Infinity
 class Grafo(object):
     """ Implementação básica de um grafo. """
 
-    def __init__(self, vertices, direcionado=False):
+    def __init__(self, direcionado=False, ponderado=False):
         """Inicializa as estruturas base do grafo."""
         self.adj = defaultdict()
+        self.vertices = []
+        self.arestas = []
         self.direcionado = direcionado
-        self.adiciona_vertices(vertices)
+        self.ponderado = ponderado
+
+    def montar_grafo(self, matrix):
+        self.adiciona_vertices(matrix.keys())
+        self.add_arestas_by_adj_matrix(matrix)
 
     def add_arestas_by_adj_matrix(self, matrix):
         """ Adiciona as conexãões aos vértices através da """
@@ -19,15 +25,17 @@ class Grafo(object):
             self.adj[v] = self.get_vertices_adjacentes_por_linha(matrix[v])
 
     def get_vertices(self):
-        """ Retorna a lista de vértices do grafo. """
-        return list(self.adj.keys())
+        return self.vertices
 
     def get_vertices_adjacentes_por_linha(self, line):
         """ Retorna uma lista dos vértices representados em uma linha da matriz"""
         connect_list = list()
         for n in range(len(line)):
-            if line[n] == 1:
-                connect_list.append(self.get_vertices()[n])
+            if line[n] > 0:
+                if self.ponderado:
+                    connect_list.append([self.get_vertices()[n], line[n]])
+                else:
+                    connect_list.append([self.get_vertices()[n], 0])
         return connect_list
 
     def add_aresta(self, u, v):
@@ -37,17 +45,20 @@ class Grafo(object):
 
     def get_arestas(self):
         """ Retorna a lista de arestas do grafo. """
-        resp = list()
-        for k in self.adj.keys():
-            for v in self.adj[k]:
-                if((str(k), str(v)) and (str(v), str(k)) not in resp):
-                    resp.append((str(k), str(v)))
-        return resp
+        if self.arestas == []:
+            resp = list()
+            for k in self.adj.keys():
+                for v in self.adj[k]:
+                    if((str(k) + str(v[0])) and (str(v[0]) + str(k)) not in resp):
+                        resp.append((str(k) + str(v[0])))
+            self.arestas = resp
+        return self.arestas
 
     def adiciona_vertices(self, vertices):
         """ Adiciona vértices ao grafo. """
         for v in vertices:
             self.adj[v] = []
+        self.vertices = list(self.adj.keys())
 
     def get_densidade(self):
         quant_arestas = len(self.get_arestas())
@@ -62,7 +73,11 @@ class Grafo(object):
 
     def existe_aresta(self, u, v):
         """ Existe uma aresta entre os vértices 'u' e 'v'? """
-        return u in self.adj and v in self.adj[u]
+        if u in self.adj:
+            for itens in self.adj[u]:
+                if itens[0] == v:
+                    return True
+        return False
 
     def get_grau_vertice(self, v):
         return len(self.adj[v])
@@ -90,14 +105,10 @@ class Grafo(object):
         return vertice
 
     def get_vertices_adjacentes(self, vertice):
-        if (type(vertice) is list):
-            resposta = dict()
-            for v in vertice:
-                resposta[v] = self.adj[v]
-            return resposta
-        else:
-            resposta = self.adj[vertice]
-            return resposta
+        resposta = []
+        for v in self.adj[vertice]:
+            resposta.append(v[0])
+        return resposta
 
     def get_freq_grau_vertices(self):
         frequencia = dict()
