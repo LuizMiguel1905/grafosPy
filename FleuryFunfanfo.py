@@ -97,9 +97,8 @@ class Graph:
                     if i[0] == str(u+v) or i[0] == str(v+u):
                         peso += i[1]
                         print(peso)
-
                 self.rmvEdge(u, v)
-                self.printEulerUtil(v)
+                self.printEulerUtil(v, peso)
 
     '''The main function that print Eulerian Trail. It first finds an odd
    degree vertex (if there is any) and then calls printEulerUtil()

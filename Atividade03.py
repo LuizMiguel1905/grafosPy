@@ -28,6 +28,7 @@ print(graph1.graph)
 graph2.add_arestas_by_adj_matrix(converterUtil.convert_matrix_to_dict(grafo2))
 graph3.add_arestas_by_adj_matrix(converterUtil.convert_matrix_to_dict(grafo3))
 graph4.add_arestas_by_adj_matrix(converterUtil.convert_matrix_to_dict(grafo4))
+graph5.add_arestas_by_adj_matrix(converterUtil.convert_matrix_to_dict(grafo5))
 
 
 if ValidadorUtil.is_euleriano(graph1) != 0:
@@ -38,3 +39,5 @@ if ValidadorUtil.is_euleriano(graph3) != 0:
     graph3.printEulerTour()
 if ValidadorUtil.is_euleriano(graph4) != 0:
     graph4.printEulerTour()
+if ValidadorUtil.is_euleriano(graph5) != 0:
+    graph5.printEulerTour()
