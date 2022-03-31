@@ -87,12 +87,17 @@ class Graph:
 
     # Print Euler tour starting from vertex u
 
-    def printEulerUtil(self, u):
+    def printEulerUtil(self, u, peso):
         # Recur for all the vertices adjacent to this vertex
         for v in self.graph[u]:
             # If edge u-v is not removed and it's a a valid next edge
             if self.isValidNextEdge(u, v):
                 print("%s-%s" % (u, v)),
+                for i in self.arestas:
+                    if i[0] == str(u+v) or i[0] == str(v+u):
+                        peso += i[1]
+                        print(peso)
+
                 self.rmvEdge(u, v)
                 self.printEulerUtil(v)
 
@@ -109,10 +114,11 @@ class Graph:
                 break
         # Print tour starting from odd vertex
         print("\n")
+        peso = 0
         if u == 0:
-            self.printEulerUtil(self.V[u])
+            self.printEulerUtil(self.V[u], peso)
         else:
-            self.printEulerUtil(u)
+            self.printEulerUtil(u, peso)
 
 # Create a graph given in the above diagram
 
