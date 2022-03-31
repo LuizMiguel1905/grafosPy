@@ -9,7 +9,7 @@ class Grafo(object):
 
     def __init__(self, matrix, direcionado=False, ponderado=False):
         """Inicializa as estruturas base do grafo."""
-        self.matrix  = matrix
+        self.matrix = matrix
         self.adj = defaultdict()
         self.vertices = []
         self.arestas = []
@@ -40,16 +40,17 @@ class Grafo(object):
         return connect_list
 
     def add_aresta(self, u, v):
-        
+
         if(not self.existe_aresta(u, v) and u != v):
             for n in range(len(self.matrix[v])):
-             if self.matrix[n] > 0:
-                if self.ponderado:
-                   self.adj[v].append([u, self.matrix[n]])
-                   self.adj[u].append([v, self.matrix[n]])
-                else:
-                    self.adj[v].append([u, 0])
-                    self.adj[u].append([v, 0])
+                if self.matrix[n] > 0:
+                    if self.ponderado:
+                        self.adj[v].append([u, self.matrix[n]])
+                        self.adj[u].append([v, self.matrix[n]])
+                    else:
+                        self.adj[v].append([u, 0])
+                        self.adj[u].append([v, 0])
+
     def remove_aresta(self, u, v):
         for i in self.adj[v]:
             if i[0] == u:
@@ -59,7 +60,6 @@ class Grafo(object):
             if j[0] == v:
                 self.adj[u].remove(j)
                 break
-
 
     def get_arestas(self):
         """ Retorna a lista de arestas do grafo. """
@@ -71,7 +71,6 @@ class Grafo(object):
                         resp.append((str(k) + str(v[0])))
             self.arestas = resp
         return self.arestas
-    
 
     def adiciona_vertices(self, vertices):
         """ Adiciona vértices ao grafo. """
@@ -92,13 +91,9 @@ class Grafo(object):
 
     def existe_aresta(self, u, v):
         """ Existe uma aresta entre os vértices 'u' e 'v'? """
-        if u in self.adj:
-            for itens in self.adj[u]:
-                if itens[0] == v:
-                    return True
+
         return False
 
-    
     def get_grau_vertice(self, v):
         return len(self.adj[v])
 

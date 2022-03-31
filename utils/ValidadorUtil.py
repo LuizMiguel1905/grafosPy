@@ -51,11 +51,11 @@ class ValidadorUtil(object):
         else:
             return True
 
-    def is_euleriano(self, grafo):
+    def is_euleriano(graph):
         newList = []
         imparCount = 0
-        for x in grafo.get_vertices():
-            if grafo.get_grau_vertice(x) % 2 == 0:
+        for x in graph.V:
+            if len(graph.graph[x]) % 2 == 0:
                 newList.append(1)
             else:
                 newList.append(0)
