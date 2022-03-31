@@ -7,8 +7,9 @@ from numpy import Infinity
 class Grafo(object):
     """ Implementação básica de um grafo. """
 
-    def __init__(self, direcionado=False, ponderado=False):
+    def __init__(self, matrix, direcionado=False, ponderado=False):
         """Inicializa as estruturas base do grafo."""
+        self.matrix  = matrix
         self.adj = defaultdict()
         self.vertices = []
         self.arestas = []
@@ -39,9 +40,26 @@ class Grafo(object):
         return connect_list
 
     def add_aresta(self, u, v):
+        
         if(not self.existe_aresta(u, v) and u != v):
-            self.adj[u].append(v)
-            self.adj[v].append(u)
+            for n in range(len(self.matrix[v])):
+             if self.matrix[n] > 0:
+                if self.ponderado:
+                   self.adj[v].append([u, self.matrix[n]])
+                   self.adj[u].append([v, self.matrix[n]])
+                else:
+                    self.adj[v].append([u, 0])
+                    self.adj[u].append([v, 0])
+    def remove_aresta(self, u, v):
+        for i in self.adj[v]:
+            if i[0] == u:
+                self.adj[v].remove(i)
+                break
+        for j in self.adj[u]:
+            if j[0] == v:
+                self.adj[u].remove(j)
+                break
+
 
     def get_arestas(self):
         """ Retorna a lista de arestas do grafo. """
@@ -53,6 +71,7 @@ class Grafo(object):
                         resp.append((str(k) + str(v[0])))
             self.arestas = resp
         return self.arestas
+    
 
     def adiciona_vertices(self, vertices):
         """ Adiciona vértices ao grafo. """
@@ -79,6 +98,7 @@ class Grafo(object):
                     return True
         return False
 
+    
     def get_grau_vertice(self, v):
         return len(self.adj[v])
 
