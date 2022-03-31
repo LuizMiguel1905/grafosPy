@@ -1,20 +1,40 @@
-# Python program print Eulerian Trail in a given Eulerian or Semi-Eulerian Graph
+import pandas as pd
   
 from collections import defaultdict
   
 #This class represents an undirected graph using adjacency list representation
 class Graph:
   
-    def __init__(self,vertices):
+    def __init__(self,vertices,direcionado=False, ponderado=False):
         self.V= vertices #No. of vertices
         self.graph = defaultdict(list) # default dictionary to store graph
         self.Time = 0
-  
+        self.arestas = []
+        self.direcionado = direcionado
+        self.ponderado = ponderado
+
+    def add_arestas_by_adj_matrix(self, matrix):
+        for v in range(self.V()):
+            self.graph[v] = self.get_vertices_adjacentes_por_linha(matrix[v])
+
+    
+    def get_vertices_adjacentes_por_linha(self, line):
+        connect_list = list()
+        for n in range(len(line)):
+            if line[n] > 0:
+                if self.ponderado:
+                    self.addEdge([self.get_vertices()[n], line[n]])
+                else:
+                    self.addEdge([self.get_vertices()[n], 0])
+        return connect_list
+
+    
     # function to add an edge to graph
-    def addEdge(self,u,v):
+    def addEdge(self,u,v,peso = 0):
         self.graph[u].append(v)
         self.graph[v].append(u)
- 
+        self.arestas.append = [str(u + v),peso]
+
     # This function removes edge u-v from graph   
     def rmvEdge(self, u, v):
         for index, key in enumerate(self.graph[u]):
