@@ -1,129 +1,103 @@
+from ast import Break
 from asyncio.windows_events import NULL
 from collections import defaultdict
 
 from numpy import Infinity
 
 
-class Grafo(object):
-    """ Implementação básica de um grafo. """
+class Graph(object):
 
     def __init__(self, direcionado=False, ponderado=False):
-        """Inicializa as estruturas base do grafo."""
-        self.adj = defaultdict()
-        self.vertices = []
-        self.arestas = []
+        self.V = []  # No. of vertices
+        self.graph = defaultdict(list)  # default dictionary to store graph
+        self.edges = []
         self.direcionado = direcionado
         self.ponderado = ponderado
 
-    def montar_grafo(self, matrix):
-        self.adiciona_vertices(matrix.keys())
-        self.add_arestas_by_adj_matrix(matrix)
+    def addVertices(self, list):
+        for v in list:
+            self.graph[v] = []
+        self.V = list
 
-    def add_arestas_by_adj_matrix(self, matrix):
-        """ Adiciona as conexãões aos vértices através da """
-        for v in self.get_vertices():
-            self.adj[v] = self.get_vertices_adjacentes_por_linha(matrix[v])
+    def addEdgeByAdjMatrix(self, matrix):
+        self.addVertices(list(matrix.keys()))
+        for v in self.V:
+            for n in range(len(matrix[v])):
+                if matrix[v][n] > 0:
+                    if not self.hasEdge(v, self.V[n]):
+                        self.addEdge(v, self.V[n], peso=matrix[v][n]) if self.ponderado else self.addEdge(
+                            v, self.V[n])
 
-    def get_vertices(self):
-        return self.vertices
+    def addEdge(self, u, v, peso=0):
+        self.graph[u].append(v)
+        self.graph[v].append(u)
+        for edge, cost in self.edges:
+            if edge == str(u + v) or edge == str(v + u):
+                return
+        self.edges.append([str(u + v), peso])
 
-    def get_vertices_adjacentes_por_linha(self, line):
-        """ Retorna uma lista dos vértices representados em uma linha da matriz"""
-        connect_list = list()
-        for n in range(len(line)):
-            if line[n] > 0:
-                if self.ponderado:
-                    connect_list.append([self.get_vertices()[n], line[n]])
-                else:
-                    connect_list.append([self.get_vertices()[n], 0])
-        return connect_list
+    def hasEdge(self, u, v):
+        return u in self.graph and v in self.graph[u]
 
-    def add_aresta(self, u, v):
-        if(not self.existe_aresta(u, v) and u != v):
-            self.adj[u].append(v)
-            self.adj[v].append(u)
+    def rmvEdge(self, u, v):
 
-    def get_arestas(self):
-        """ Retorna a lista de arestas do grafo. """
-        if self.arestas == []:
-            resp = list()
-            for k in self.adj.keys():
-                for v in self.adj[k]:
-                    if((str(k) + str(v[0])) and (str(v[0]) + str(k)) not in resp):
-                        resp.append((str(k) + str(v[0])))
-            self.arestas = resp
-        return self.arestas
+        for index, key in enumerate(self.graph[u]):
+            if key == v:
+                self.graph[u].pop(index)
+                break
+        for index, key in enumerate(self.graph[v]):
+            if key == u:
+                self.graph[v].pop(index)
+                break
 
-    def adiciona_vertices(self, vertices):
-        """ Adiciona vértices ao grafo. """
-        for v in vertices:
-            self.adj[v] = []
-        self.vertices = list(self.adj.keys())
+    def getDensity(self):
+        quant_arestas = len(self.edges)
+        quant_vertices = len(self.V)
+        equation = (2*quant_arestas)/(quant_vertices*(quant_vertices - 1))
+        return 'Denso' if round(equation) == 1 else 'Esparso'
 
-    def get_densidade(self):
-        quant_arestas = len(self.get_arestas())
-        quant_vertices = len(self.get_vertices())
-        eq = (2*quant_arestas)/(quant_vertices*(quant_vertices - 1))
-        resp = ''
-        if round(eq) == 1:
-            resp = 'Denso'
-        else:
-            resp = 'Esparso'
-        return(resp)
+    def getVerticeDegree(self, v):
+        return len(self.graph[v])
 
-    def existe_aresta(self, u, v):
-        """ Existe uma aresta entre os vértices 'u' e 'v'? """
-        if u in self.adj:
-            for itens in self.adj[u]:
-                if itens[0] == v:
-                    return True
-        return False
-
-    def get_grau_vertice(self, v):
-        return len(self.adj[v])
-
-    def get_vertices_maior_grau(self):
+    def getVerticesGreatestDegree(self):
         vertice = list([])
         grau = 0
-        for v in self.get_vertices():
-            if (not(len(self.adj[v]) < grau)):
-                if(len(self.adj[v]) > grau):
+        for v in self.V:
+            if (not(len(self.graph[v]) < grau)):
+                if(len(self.graph[v]) > grau):
                     vertice = []
-                grau = len(self.adj[v])
+                grau = len(self.graph[v])
                 vertice.append(v)
         return vertice
 
-    def get_vertices_menor_grau(self):
+    def getVerticesLowestDegree(self):
         vertice = list([])
         grau = Infinity
-        for v in self.get_vertices():
-            if (not(len(self.adj[v]) > grau)):
-                if(len(self.adj[v]) < grau):
+        for v in self.V:
+            if (not(len(self.graph[v]) > grau)):
+                if(len(self.graph[v]) < grau):
                     vertice = []
-                grau = len(self.adj[v])
+                grau = len(self.graph[v])
                 vertice.append(v)
         return vertice
 
-    def get_vertices_adjacentes(self, vertice):
-        resposta = []
-        for v in self.adj[vertice]:
-            resposta.append(v[0])
-        return resposta
+    def getAdjVertices(self, vertice):
+        return self.graph[vertice]
 
-    def get_freq_grau_vertices(self):
+    def getVerticesDegreeFrequency(self):
         frequencia = dict()
-        for v in self.get_vertices():
-            grau = len(self.adj[v])
+        for v in self.V:
+            grau = self.getVerticeDegree(v)
             if(('Grau ' + str(grau)) not in frequencia):
                 frequencia['Grau ' + str(grau)] = 0
             frequencia['Grau ' + str(grau)] += 1
         return frequencia
 
     def __len__(self):
-        return len(self.adj)
+        return len(self.graph)
 
     def __str__(self):
-        return '{}({})'.format(self.__class__.__name__, dict(self.adj))
+        return '{}({})'.format(self.__class__.__name__, dict(self.graph))
 
     def __getitem__(self, v):
-        return self.adj[v]
+        return self.graph[v]

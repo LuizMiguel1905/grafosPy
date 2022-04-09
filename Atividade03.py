@@ -1,9 +1,9 @@
 
 import pandas as pd
-from models.grafo import Grafo
+from models.grafo import Graph
 from utils.ConverterUtil import ConverterUtil
 from utils.ValidadorUtil import ValidadorUtil
-
+from utils.PathUtil import PathUtil
 
 grafo1 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 1')
 grafo2 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 2')
@@ -14,15 +14,33 @@ grafo5 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 5')
 
 converterUtil = ConverterUtil()
 validadorUtil = ValidadorUtil()
+pathUtil = PathUtil()
 
-graph1 = Grafo(ponderado=True)
-graph2 = Grafo(ponderado=True)
-graph3 = Grafo(ponderado=True)
-graph4 = Grafo(ponderado=True)
-graph5 = Grafo(ponderado=True)
+graph1 = Graph(ponderado=True)
+graph2 = Graph(ponderado=True)
+graph3 = Graph(ponderado=True)
+graph4 = Graph(ponderado=True)
+graph5 = Graph(ponderado=True)
 
 
-graph5.montar_grafo(converterUtil.convert_matrix_to_dict(grafo5))
+graph1.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo1))
+graph2.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo2))
+graph3.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo3))
+graph4.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo4))
+graph5.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo5))
 
-print(graph5.adj)
-print(validadorUtil.exibir_ciclo_euleriano(graph5))
+
+pathUtil.printEulerTour(graph1) if ValidadorUtil.isEulerian(
+    graph1) != 0 else print("Grafo 1 não é euleriano")
+
+pathUtil.printEulerTour(graph2) if ValidadorUtil.isEulerian(
+    graph2) != 0 else print("Grafo 2 não é euleriano")
+
+pathUtil.printEulerTour(graph3) if ValidadorUtil.isEulerian(
+    graph3) != 0 else print("Grafo 3 não é euleriano")
+
+pathUtil.printEulerTour(graph4) if ValidadorUtil.isEulerian(
+    graph4) != 0 else print("Grafo 4 não é euleriano")
+
+pathUtil.printEulerTour(graph5) if ValidadorUtil.isEulerian(
+    graph5) != 0 else print("Grafo 5 não é euleriano")
