@@ -4,7 +4,7 @@ from utils.ConverterUtil import ConverterUtil
 from utils.ValidadorUtil import ValidadorUtil
 from utils.PathUtil import PathUtil
 
-grafo6 = pd.read_excel("grafosPy/docs/Grafos/Grafos.xlsx", sheet_name='Grafo 6')
+grafo6 = pd.read_excel("docs/Grafos/Grafos.xlsx", sheet_name='Grafo 6')
 
 converterUtil = ConverterUtil()
 validadorUtil = ValidadorUtil()
@@ -14,4 +14,4 @@ graph6 = Graph(ponderado=True)
 
 graph6.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo6))
 
-pathUtil.BFS(graph6, "E")
+pathUtil.BFS(graph6, "A")
