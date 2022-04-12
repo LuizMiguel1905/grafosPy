@@ -1,3 +1,8 @@
+from models.grafo import Graph
+import networkx as nx
+import matplotlib.pyplot as plt
+
+
 class PathUtil(object):
 
     def __init__(self):
@@ -22,6 +27,23 @@ class PathUtil(object):
                     parent[grafo.V.index(v)] = u
                     Q.append(v)
             color[grafo.V.index(u)] = 'black'
+        # Adicionando as arestas da arvre
+        tuplas_aresta = []
+        for i in range(len(Arvore.V)):
+            if parent[i] == '':
+                pass
+            else:
+                Arvore.addEdge(Arvore.V[i], parent[i], 1)
+                tuplas_aresta.append((Arvore.V[i], parent[i]))
+
+        print("Distancia de todos os vértices até a raiz em ordem alfabética dos vértices " + str(distance))
+        Pimbas = nx.Graph()
+        Pimbas.add_nodes_from(Arvore.V)
+        Pimbas.add_edges_from(tuplas_aresta)
+
+        # Pimbas.add_edges_from(Arvore.edges)
+        nx.draw(Pimbas, with_labels=True)
+        plt.show()
 
     def DFSCount(self, v, visited):
         count = 1

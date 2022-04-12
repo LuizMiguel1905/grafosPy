@@ -5,11 +5,11 @@ from utils.ConverterUtil import ConverterUtil
 from utils.ValidadorUtil import ValidadorUtil
 from utils.PathUtil import PathUtil
 
-grafo1 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 1')
-grafo2 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 2')
-grafo3 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 3')
-grafo4 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 4')
-grafo5 = pd.read_excel("docs/grafos/grafos.xlsx", sheet_name='Grafo 5')
+grafo1 = pd.read_excel("grafosPy/docs/Grafos/Grafos.xlsx", sheet_name='Grafo 1')
+grafo2 = pd.read_excel("grafosPy/docs/Grafos/Grafos.xlsx", sheet_name='Grafo 2')
+grafo3 = pd.read_excel("grafosPy/docs/Grafos/Grafos.xlsx", sheet_name='Grafo 3')
+grafo4 = pd.read_excel("grafosPy/docs/Grafos/Grafos.xlsx", sheet_name='Grafo 4')
+grafo5 = pd.read_excel("grafosPy/docs/Grafos/Grafos.xlsx", sheet_name='Grafo 5')
 
 
 converterUtil = ConverterUtil()
