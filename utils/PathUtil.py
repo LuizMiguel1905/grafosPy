@@ -1,13 +1,16 @@
+from re import U
+
+
 class PathUtil(object):
 
     def __init__(self):
         self.graph = None
 
     def BFS(self, grafo, rootnode):
+        largura = []
         color = ['white'] * len(grafo.V)
         distance = [10000000] * len(grafo.V)
         parent = [""] * len(grafo.V)
-
         RootIndex = grafo.V.index(rootnode)
         color[RootIndex] = 'gray'
         distance[RootIndex] = 0
@@ -19,9 +22,15 @@ class PathUtil(object):
                 if color[grafo.V.index(v)] == 'white':
                     color[grafo.V.index(v)] = 'gray'
                     distance[grafo.V.index(v)] = distance[grafo.V.index(u)] + 1
+                    print("distance", distance)
                     parent[grafo.V.index(v)] = u
                     Q.append(v)
+                    
             color[grafo.V.index(u)] = 'black'
+            largura.append(u)
+        print("Distancia", distance)
+        print("Caminho:" , largura)
+     
 
     def DFSCount(self, v, visited):
         count = 1
