@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt2
 import networkx as nx
 
-from models.grafo import Grafo
+from models.grafo import Graph
 from utils.ConverterUtil import ConverterUtil
 from itertools import islice
 
@@ -19,7 +19,7 @@ vertices = MC.convert_collumn_to_list()
 adj_matrix_dict = MC.convert_matrix_to_dict('UF')
 
 
-graph = Grafo(vertices)
+graph = Graph(vertices)
 
 graph.add_arestas_by_adj_matrix(adj_matrix_dict)
 

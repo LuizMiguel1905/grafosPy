@@ -1,26 +1,51 @@
+from models.grafo import Graph
+import networkx as nx
+import matplotlib.pyplot as plt
+
 class PathUtil(object):
 
     def __init__(self):
         self.graph = None
 
-    def BFS(grafo, rootnode):
-        color = ('white') * len(grafo.V)
-        distance = (10000000) * len(grafo.V)
-        parent = (None) * len(grafo.V)
+    def BFS(self, grafo, rootnode):
+        color = ['white'] * len(grafo.V)
+        distance = [10000000] * len(grafo.V)
+        parent = [""] * len(grafo.V)
 
         RootIndex = grafo.V.index(rootnode)
         color[RootIndex] = 'gray'
         distance[RootIndex] = 0
         Q = []
         Q.append(rootnode)
-        while not Q:
+        # Criando novo grafo, dessa vez, será a arvore proveniente do BFS
+        Arvore = Graph()
+        Arvore.addVertices(grafo.V)
+        while Q:
             u = Q.pop()
             for v in grafo.graph[u]:
                 if color[grafo.V.index(v)] == 'white':
                     color[grafo.V.index(v)] = 'gray'
                     distance[grafo.V.index(v)] = distance[grafo.V.index(u)] + 1
                     parent[grafo.V.index(v)] = u
+                    Q.append(v)
             color[grafo.V.index(u)] = 'black'
+        #Adicionando as arestas da arvre
+        tuplas_aresta = []  
+        for i in range(len(Arvore.V)):
+            if parent[i] == '':
+                pass
+            else:
+                Arvore.addEdge(Arvore.V[i], parent[i], 1)
+                tuplas_aresta.append((Arvore.V[i], parent[i]))
+
+        print("Distancia de todos os vértices até a raiz em ordem alfabética dos vértices " + str(distance))
+        Pimbas = nx.Graph()
+        Pimbas.add_nodes_from(Arvore.V)
+        Pimbas.add_edges_from(tuplas_aresta)
+        
+        #Pimbas.add_edges_from(Arvore.edges)
+        nx.draw(Pimbas, with_labels=True)
+        plt.show()
 
     def DFSCount(self, v, visited):
         count = 1
