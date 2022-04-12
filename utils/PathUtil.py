@@ -3,23 +3,24 @@ class PathUtil(object):
     def __init__(self):
         self.graph = None
 
-    def BFS(grafo, rootnode):
-        color = ('white') * len(grafo.V)
-        distance = (10000000) * len(grafo.V)
-        parent = (None) * len(grafo.V)
+    def BFS(self, grafo, rootnode):
+        color = ['white'] * len(grafo.V)
+        distance = [10000000] * len(grafo.V)
+        parent = [""] * len(grafo.V)
 
         RootIndex = grafo.V.index(rootnode)
         color[RootIndex] = 'gray'
         distance[RootIndex] = 0
         Q = []
         Q.append(rootnode)
-        while not Q:
+        while Q:
             u = Q.pop()
             for v in grafo.graph[u]:
                 if color[grafo.V.index(v)] == 'white':
                     color[grafo.V.index(v)] = 'gray'
                     distance[grafo.V.index(v)] = distance[grafo.V.index(u)] + 1
                     parent[grafo.V.index(v)] = u
+                    Q.append(v)
             color[grafo.V.index(u)] = 'black'
 
     def DFSCount(self, v, visited):
