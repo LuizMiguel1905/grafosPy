@@ -1,5 +1,4 @@
-from ast import Break
-from asyncio.windows_events import NULL
+
 from collections import defaultdict
 
 from numpy import Infinity
@@ -32,15 +31,14 @@ class Graph(object):
         self.graph[u].append(v)
         self.graph[v].append(u)
         for edge, cost in self.edges:
-            if edge == str(u + v) or edge == str(v + u):
+            if edge == (u, v) or edge == (v, u):
                 return
-        self.edges.append([str(u + v), peso])
+        self.edges.append([(u, v), peso])
 
     def hasEdge(self, u, v):
         return u in self.graph and v in self.graph[u]
 
     def rmvEdge(self, u, v):
-
         for index, key in enumerate(self.graph[u]):
             if key == v:
                 self.graph[u].pop(index)

@@ -1,6 +1,5 @@
+
 from models.grafo import Graph
-import networkx as nx
-import matplotlib.pyplot as plt
 
 
 class PathUtil(object):
@@ -8,42 +7,38 @@ class PathUtil(object):
     def __init__(self):
         self.graph = None
 
-    def BFS(self, grafo, rootnode):
+    def CreateSpanningTreeBFS(self, grafo, rootnode):
         color = ['white'] * len(grafo.V)
-        distance = [10000000] * len(grafo.V)
+        distance = [0] * len(grafo.V)
         parent = [""] * len(grafo.V)
-
         RootIndex = grafo.V.index(rootnode)
         color[RootIndex] = 'gray'
         distance[RootIndex] = 0
         Q = []
         Q.append(rootnode)
+        Arvore = Graph()
+        Arvore.addVertices(grafo.V)
         while Q:
             u = Q.pop()
             for v in grafo.graph[u]:
                 if color[grafo.V.index(v)] == 'white':
                     color[grafo.V.index(v)] = 'gray'
-                    distance[grafo.V.index(v)] = distance[grafo.V.index(u)] + 1
+                    distance[grafo.V.index(v)] += 1
                     parent[grafo.V.index(v)] = u
+                    Arvore.addEdge(Arvore.V[grafo.V.index(v)], u)
                     Q.append(v)
             color[grafo.V.index(u)] = 'black'
-        # Adicionando as arestas da arvre
-        tuplas_aresta = []
-        for i in range(len(Arvore.V)):
-            if parent[i] == '':
-                pass
-            else:
-                Arvore.addEdge(Arvore.V[i], parent[i], 1)
-                tuplas_aresta.append((Arvore.V[i], parent[i]))
-
         print("Distancia de todos os vértices até a raiz em ordem alfabética dos vértices " + str(distance))
-        Pimbas = nx.Graph()
-        Pimbas.add_nodes_from(Arvore.V)
-        Pimbas.add_edges_from(tuplas_aresta)
+        return Arvore
 
-        # Pimbas.add_edges_from(Arvore.edges)
-        nx.draw(Pimbas, with_labels=True)
-        plt.show()
+    def printGraph(self, grafo, s, v, parentes):
+        if s == v:
+            print(s)
+        elif parentes[grafo.V.index(v)] == "":
+            print("Nenhum Caminho Existente")
+        else:
+            print(v)
+            self.printGraph(grafo, s, parentes[grafo.V.index(v)], parentes)
 
     def DFSCount(self, v, visited):
         count = 1
@@ -53,36 +48,21 @@ class PathUtil(object):
                 count = count + self.DFSCount(self.graph.V.index(i), visited)
         return count
 
-    # The function to check if edge u-v can be considered as next edge in
-    # Euler Tour
-    def isValidNextEdge(self, u, v):
-        # The edge u-v is valid in one of the following two cases:
+    def isValidNextEdgeDFS(self, u, v):
 
-        #  1) If v is the only adjacent vertex of u
         if len(self.graph.graph[u]) == 1:
             return True
         else:
-            '''
-             2) If there are multiple adjacents, then u-v is not a bridge
-                 Do following steps to check if u-v is a bridge
 
-            2.a) count of vertices reachable from u'''
             visited = [False]*(len(self.graph.V))
             count1 = self.DFSCount(self.graph.V.index(u), visited)
 
-            '''2.b) Remove edge (u, v) and after removing the edge, count
-                vertices reachable from u'''
             self.graph.rmvEdge(u, v)
             visited = [False]*(len(self.graph.V))
             count2 = self.DFSCount(self.graph.V.index(u), visited)
 
-            # 2.c) Add the edge back to the graph
             self.graph.addEdge(u, v)
-
-            # 2.d) If count1 is greater, then edge (u, v) is a bridge
             return False if count1 > count2 else True
-
-    # Print Euler tour starting from vertex u
 
     def printEulerUtil(self, u, peso, caminho):
         # Recur for all the vertices adjacent to this vertex
@@ -100,19 +80,13 @@ class PathUtil(object):
                 self.graph.rmvEdge(u, v)
                 self.printEulerUtil(v, peso, caminho)
 
-    '''The main function that print Eulerian Trail. It first finds an odd
-   degree vertex (if there is any) and then calls printEulerUtil()
-   to print the path '''
-
     def printEulerTour(self, graph):
-        # Find a vertex with odd degree
         self.graph = graph
         u = 0
         for i in graph.V:
             if len(graph.graph[i]) % 2 != 0:
                 u = i
                 break
-        # Print tour starting from odd vertex
         print("\n")
         peso = 0
         caminho = []
