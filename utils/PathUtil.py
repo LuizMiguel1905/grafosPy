@@ -57,10 +57,32 @@ class PathUtil(object):
             u = pilha.pop()
             if visited[Arvore.V.index(u)] == False:
                 visited[Arvore.V.index(u)] = True
+                print(u + " ")
                 for v in grafo.graph[u][::-1]:
                     pilha.append(v)
-                ultimoNo = v
-                Arvore.addEdge(ultimoNo, u)
+                    ultimoNo = v
+                if ultimoNo != "":
+                    Arvore.addEdge(ultimoNo, u)
+
+        return Arvore
+
+    def CreateSpanningTreeDFSStack2(self, grafo, rootnode):
+        Arvore = Graph()
+        Arvore.addVertices(grafo.V)
+        visited = [False]*(len(Arvore.V))
+        pilha = list()
+        pilha.append(rootnode)
+        ultimoNo = ""
+        while pilha:
+            u = pilha.pop()
+            if visited[Arvore.V.index(u)] == False:
+                visited[Arvore.V.index(u)] = True
+                for v in grafo.graph[u][::-1]:
+                    pilha.append(v)
+                    ultimoNo = v
+                if ultimoNo != "":
+                    Arvore.addEdge(ultimoNo, u)
+
         return Arvore
 
     def DFSCount(self, v, visited):
