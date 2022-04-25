@@ -44,3 +44,5 @@ pathUtil.printEulerTour(graph4) if ValidadorUtil.isEulerian(
 
 pathUtil.printEulerTour(graph5) if ValidadorUtil.isEulerian(
     graph5) != 0 else print("Grafo 5 não é euleriano")
+
+pathUtil.BFS(graph5, 'A')
