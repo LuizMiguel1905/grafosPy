@@ -28,11 +28,11 @@ class Graph(object):
                             v, self.V[n])
 
     def addEdge(self, u, v, peso=0):
-        self.graph[u].append(v)
-        self.graph[v].append(u)
         for edge, cost in self.edges:
             if edge == (u, v) or edge == (v, u):
                 return
+        self.graph[u].append(v)
+        self.graph[v].append(u)
         self.edges.append([(u, v), peso])
 
     def hasEdge(self, u, v):

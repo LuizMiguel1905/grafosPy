@@ -31,14 +31,37 @@ class PathUtil(object):
         print("Distancia de todos os vértices até a raiz em ordem alfabética dos vértices " + str(distance))
         return Arvore
 
-    def printGraph(self, grafo, s, v, parentes):
-        if s == v:
-            print(s)
-        elif parentes[grafo.V.index(v)] == "":
-            print("Nenhum Caminho Existente")
-        else:
-            print(v)
-            self.printGraph(grafo, s, parentes[grafo.V.index(v)], parentes)
+    def CreateSpanningTreeDFSRecursive(self, grafo, rootnode):
+        self.graph = grafo
+        Arvore = Graph()
+        Arvore.addVertices(grafo.V)
+        visited = [False]*(len(Arvore.V))
+        self.DFS(Arvore.V.index(rootnode), visited, Arvore)
+        return Arvore
+
+    def DFS(self, v, visited, Arvore):
+        visited[v] = True
+        for i in self.graph[self.graph.V[v]]:
+            if visited[self.graph.V.index(i)] == False:
+                Arvore.addEdge(self.graph.V[v], i)
+                self.DFS(self.graph.V.index(i), visited, Arvore)
+
+    def CreateSpanningTreeDFSStack(self, grafo, rootnode):
+        Arvore = Graph()
+        Arvore.addVertices(grafo.V)
+        visited = [False]*(len(Arvore.V))
+        pilha = list()
+        pilha.append(rootnode)
+        ultimoNo = ""
+        while pilha:
+            u = pilha.pop()
+            if visited[Arvore.V.index(u)] == False:
+                visited[Arvore.V.index(u)] = True
+                for v in grafo.graph[u][::-1]:
+                    pilha.append(v)
+                ultimoNo = v
+                Arvore.addEdge(ultimoNo, u)
+        return Arvore
 
     def DFSCount(self, v, visited):
         count = 1
@@ -66,7 +89,7 @@ class PathUtil(object):
 
     def printEulerUtil(self, u, peso, caminho):
         # Recur for all the vertices adjacent to this vertex
-        for v in self.graph.graph[u]:
+        for v in self.graph[u]:
             # If edge u-v is not removed and it's a a valid next edge
             if self.isValidNextEdge(u, v):
                 print("%s-%s" % (u, v)),
