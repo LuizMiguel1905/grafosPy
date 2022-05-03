@@ -1,11 +1,11 @@
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
-
+import graphviz
 from models.grafo import Graph
 from utils.ConverterUtil import ConverterUtil
 from utils.PathUtil import PathUtil
-
+from networkx.drawing.nx_pydot import graphviz_layout
 
 grafo7 = pd.read_excel("docs/Grafos/Grafos.xlsx", sheet_name='Grafo 7')
 
@@ -16,8 +16,8 @@ graph7 = Graph(ponderado=True)
 
 graph7.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo7))
 
-Arvore1 = pathUtil.CreateSpanningTreeDFSRecursive(graph7, "B")
-Arvore2 = pathUtil.CreateSpanningTreeDFSStack(graph7, "B")
+Arvore1 = pathUtil.CreateSpanningTreeDFSRecursive(graph7, "A")
+Arvore2 = pathUtil.CreateSpanningTreeDFSStack(graph7, "A")
 
 SpanningTree = nx.Graph()
 SpanningTree2 = nx.Graph()
@@ -30,9 +30,11 @@ Edges2 = [edge for edge, cost in Arvore2.edges]
 SpanningTree.add_edges_from(Edges)
 SpanningTree2.add_edges_from(Edges2)
 
-nx.draw(SpanningTree, with_labels=True)
-plt.title("Spanning Tree Recursiva")
+sp = nx.minimum_spanning_tree(SpanningTree)
+nx.draw(sp, with_labels=True)
+
 plt.show()
-nx.draw(SpanningTree2, with_labels=True)
+sp = nx.maximum_spanning_tree(SpanningTree)
+nx.draw(sp, with_labels=True)
 plt.title("Spanning Tree com Pilha")
 plt.show()
