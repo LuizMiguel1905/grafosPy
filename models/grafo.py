@@ -32,7 +32,8 @@ class Graph(object):
             if edge == (u, v) or edge == (v, u):
                 return
         self.graph[u].append(v)
-        self.graph[v].append(u)
+        if not self.ponderado:
+            self.graph[v].append(u)
         self.edges.append([(u, v), peso])
 
     def hasEdge(self, u, v):

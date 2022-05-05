@@ -50,9 +50,9 @@ class PathUtil(object):
         Arvore = Graph()
         Arvore.addVertices(grafo.V)
         visited = [False]*(len(Arvore.V))
+        parent = [""]*(len(Arvore.V))
         pilha = list()
         pilha.append(rootnode)
-        ultimoNo = ""
         while pilha:
             u = pilha.pop()
             if visited[Arvore.V.index(u)] == False:
@@ -60,9 +60,9 @@ class PathUtil(object):
                 print(u + " ")
                 for v in grafo.graph[u][::-1]:
                     pilha.append(v)
-                    ultimoNo = v
-                if ultimoNo != "":
-                    Arvore.addEdge(ultimoNo, u)
+                    parent[grafo.V.index(v)] = u
+                if parent[grafo.V.index(u)] != "":
+                    Arvore.addEdge(parent[grafo.V.index(u)], u)
 
         return Arvore
 
