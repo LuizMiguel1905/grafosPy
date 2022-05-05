@@ -1,22 +1,18 @@
 
-from models.grafo import Graph
+#from models.grafo import Graph
 
 from queue import PriorityQueue
 
 class Dijsktra:
     def __init__(self, quant_de_nos):
-        grafo = Graph()
+        #grafo = Graph()
         
 
         #Numero de vertices
-        
-        self.v = quant_de_nos
 
-        self.edge = [
-            [-1 for i in range(quant_de_nos)] 
-            
-            for j in range(quant_de_nos)
-            ] 
+        self.v = quant_de_nos
+        #self.v = range(grafo.V)
+        self.edge = [ [-1 for i in range(quant_de_nos)] for j in range(quant_de_nos) ] 
         
         #Vertices visitados
         self.visited = [] 
@@ -45,6 +41,7 @@ class Dijsktra:
 
             #Loop para percorrer todos os nós
             for adjacente in range(self.v):
+                print(self.edge[no_atual])
                 if self.edge[no_atual][adjacente] != -1:
                     distance = self.edge[no_atual][adjacente]
                     #Caso o nó adjacente não for visitado
