@@ -18,15 +18,13 @@ pathUtil = PathUtil()
 
 disk = Dijsktra()
 
-#graph1 = Graph(ponderado=True,  direcionado=True)
+graph1 = Graph(ponderado=True,  direcionado=True)
 graph2 = Graph(ponderado=True,  direcionado=True)
 #graph3 = Graph(ponderado=True,  direcionado=False)
-#graph1.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo1))
+graph1.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo1))
 graph2.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo2))
-#graph3.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo3))
+# graph3.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo3))
 
-#disk.dijkstra(graph1, "A")
-disk.dijkstra(graph2, "A")
-
-
-
+disk.dijkstra(graph1)
+print("---------------------------------------")
+disk.dijkstra(graph2)

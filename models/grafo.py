@@ -22,14 +22,14 @@ class Graph(object):
         self.addVertices(list(matrix.keys()))
         for v in self.V:
             for n in range(len(matrix[v])):
-                if matrix[v][n] > 0:
+                if matrix[v][n] != 0:
                     if not self.hasEdge(v, self.V[n]):
                         self.addEdge(v, self.V[n], peso=matrix[v][n]) if self.ponderado else self.addEdge(
                             v, self.V[n])
 
     def addEdge(self, u, v, peso=0):
         for edge, cost in self.edges:
-            if edge == (u, v) or edge == (v, u):
+            if not self.direcionado and (edge == (u, v) or edge == (v, u)):
                 return
         self.graph[u].append(v)
         if not self.ponderado:
