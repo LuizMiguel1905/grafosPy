@@ -1,28 +1,32 @@
 import pandas as pd
 from models.grafo import Graph
 
-from utils.BellmanFord import BelmanFord
-from utils.ConverterUtil import ConverterUtil
 
-grafo1 = pd.read_excel("docs/grafos/Bellman_Ford.xlsx", sheet_name='Grafo1')
-grafo2 = pd.read_excel("docs/grafos/Bellman_Ford.xlsx", sheet_name='Grafo2')
+from utils.ConverterUtil import ConverterUtil
+from utils.FloydWarshall import FloydWarshall
+
+grafo1 = pd.read_excel("docs/grafos/Floyd_Warshall.xlsx", sheet_name='Grafo1')
+grafo2 = pd.read_excel("docs/grafos/Floyd_Warshall.xlsx", sheet_name='Grafo2')
 
 converterUtil = ConverterUtil()
-bf = BelmanFord()
+fw = FloydWarshall()
 
 graph1 = Graph(ponderado=True,  direcionado=True)
-graph2 = Graph(ponderado=True,  direcionado=True)
+graph2 = Graph(ponderado=True)
 graph3 = Graph(ponderado=True,  direcionado=True)
+
+graph3.addVertices(['A', 'B', 'C'])
+graph3.addEdge('A', 'B', 4)
+graph3.addEdge('A', 'C', 11)
+graph3.addEdge('B', 'A', 6)
+graph3.addEdge('B', 'C', 2)
+graph3.addEdge('C', 'A', 3)
 
 graph1.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo1))
 graph2.addEdgeByAdjMatrix(converterUtil.convertMatrixToDict(grafo2))
 
-graph3.addVertices(['h', 'i', 'j'])
-graph3.addEdge('h', 'i', 2)
-graph3.addEdge('i', 'j', 3)
-graph3.addEdge('j', 'h', -8)
-bf.solve(graph1, "Z")
+
+# fw.solve(graph3)
 print("------------------------------------------")
-bf.solve(graph2, "S")
+fw.solve(graph2)
 print("------------------------------------------")
-bf.solve(graph3, "h")
